@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://cy7ip2adhbuha"]
+[gd_scene load_steps=10 format=3 uid="uid://cy7ip2adhbuha"]
 
 [ext_resource type="Texture2D" uid="uid://bronx5klvo03w" path="res://assets/sprites/knight.png" id="1_3vyb7"]
 [ext_resource type="Script" uid="uid://bvca4cj85hpps" path="res://scripts/player.gd" id="1_g2els"]
@@ -42,8 +42,13 @@ animations = [{
 [sub_resource type="CircleShape2D" id="CircleShape2D_lj8jo"]
 radius = 5.0
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_sword"]
+size = Vector2(16, 28)
+
 [node name="Player" type="CharacterBody2D"]
 z_index = 5
+collision_layer = 2
+collision_mask = 3
 script = ExtResource("1_g2els")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
@@ -55,3 +60,27 @@ autoplay = "idle"
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(0, -15)
 shape = SubResource("CircleShape2D_lj8jo")
+
+[node name="SwordArea" type="Area2D" parent="."]
+visible = false
+position = Vector2(12, -15)
+collision_layer = 4
+monitoring = false
+monitorable = false
+
+[node name="Polygon2D" type="Polygon2D" parent="SwordArea"]
+color = Color(0.8, 0.8, 0.8, 1)
+polygon = PackedVector2Array(-2, -14, 8, -14, 12, 0, 8, 14, -2, 14)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="SwordArea"]
+position = Vector2(4, 0)
+shape = SubResource("RectangleShape2D_sword")
+disabled = true
+
+[node name="AttackTimer" type="Timer" parent="."]
+wait_time = 0.2
+one_shot = true
+
+[node name="DropTimer" type="Timer" parent="."]
+wait_time = 0.25
+one_shot = true
